@@ -1,5 +1,6 @@
 #include "order_book.h"
 #include <iterator> // For std::prev
+#include <iostream>
 
 void OrderBook::add(const Order& o) {
     /*
@@ -51,6 +52,31 @@ void OrderBook::add(const Order& o) {
     // shared by both paths
     levels_[slot].push_back(o);
     by_id_.emplace(o.id, std::prev(levels_[slot].end()));
+
+    // Printing the current states
+    std::cout << "Iteration: " << iter << "\n";
+    iter++;
+    std::cout  << "Printing levels_\n";
+    for (const auto& level : levels_) {
+        for (auto it = level.begin(); it != level.end(); it++) {
+            std::cout << "ID: " << it->id << " Price: $" << it->price / 100.0f <<  " Shares: " << it->shares << "\n";
+        }
+    }
+
+    std::cout << "Bid levels\n";
+    for (const auto& [price, pos]:bid_level_) {
+        std::cout << "Price: $" << price / 100.0f << " Position: " << pos << "\n";
+    }
+
+    std::cout << "BY ID\n";
+    for (const auto& [id, pointer]:by_id_) {
+        std::cout << "ID: " << id << " Pointer: " << &pointer << "\n";
+    }
+
+    std::cout << "Bid Prices\n";
+    for (const auto& bid : bid_prices_) {
+        std::cout << bid << '\n';
+    }
 }
 
 bool OrderBook::cancel(std::uint64_t id) {

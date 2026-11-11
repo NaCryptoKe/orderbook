@@ -29,6 +29,10 @@ class OrderBook {
     std::vector<std::int64_t> bid_prices_;
     std::vector<std::int64_t> ask_prices_;
 
+private:
+    // Temporary things
+    size_t iter = 1;
+
 public:
     void add(const Order& o);
     bool cancel(std::uint64_t);
